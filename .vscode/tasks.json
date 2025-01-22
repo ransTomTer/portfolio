@@ -1,0 +1,338 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "PHP Web Server",
+            "hide": true,
+            "type": "shell",
+            "command": "php artisan serve --host 0.0.0.0",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "group": "server",
+            }
+        },
+        {
+            "label": "PHP Websocket Server",
+            "hide": true,
+            "type": "shell",
+            "command": "php artisan reverb:start --debug",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "group": "server",
+            }
+        },
+        {
+            "label": "Vite Dev Server",
+            "hide": true,
+            "type": "npm",
+            "script": "dev",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "group": "server",
+            }
+        },
+        {
+            "label": "Prepare and Start Front End Servers",
+            "type": "npm",
+            "script": "start-bandilla-1",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "group": "server",
+            }
+        },
+        {
+            "label": "Delayed Start PHP Servers",
+            "hide": true,
+            "group": "none",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Delay Start Server",
+                "Start PHP Servers",
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "new",
+                "showReuseMessage": false,
+                "close": true
+            },
+        },
+        {
+            "label": "Start PHP Servers",
+            "type": "npm",
+            "script": "start-bandilla-2",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "group": "server",
+            }
+        },
+        {
+            "label": "Launch Herd",
+            "hide": true,
+            "group": "none",
+            "type": "shell",
+            "command": "powershell.exe -Command \"Herd.exe;\"",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "new",
+                "showReuseMessage": false,
+                "close": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Delay Start",
+            "hide": true,
+            "type": "shell",
+            "command": "powershell.exe -NoProfile -NonInteractive -Command \"Start-Sleep -Seconds 5;\" ",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "new",
+                "showReuseMessage": false,
+                "close": true
+            }
+        },
+        {
+            "label": "Delay Start Server",
+            "hide": true,
+            "type": "shell",
+            "command": "powershell.exe -NoProfile -NonInteractive -Command \"Start-Sleep -Seconds 5;\" ",
+            "isBackground": true,
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "new",
+                "showReuseMessage": false,
+                "close": true
+            }
+        },
+        {
+            "label": "Delayed Servers",
+            "hide": true,
+            "group": "none",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Delay Start",
+                "Run Servers",
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "new",
+                "showReuseMessage": false,
+                "close": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Servers",
+            "group": "none",
+            "dependsOn": [
+                "Prepare and Start Front End Servers",
+                "Delayed Start PHP Servers",
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Cloning Branch",
+            "hide": true,
+            "type": "shell",
+            "command": "git clone -b ${input:branchName} https://github.com/.git",
+            "problemMatcher": [],
+            "dependsOrder": "sequence",
+            // "options": {
+            //     "shell": {
+            //         "executable": "powershell.exe"
+            //     }
+            // },
+            // "presentation": {
+            //     "echo": true,
+            //     "reveal": "always",
+            //     "focus": true,
+            //     "panel": "shared",
+            //     // "showReuseMessage": false,
+            //     "clear": false
+            // }
+        },
+        {
+            "label": "Clone Branch",
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Start Cloning Branch",
+                "Set Repo Name",
+                "Modify Dependencies",
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                // "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Set Repo Name",
+            "hide": true,
+            "type": "shell",
+            "command": "cd ${workspaceFolder}\\${input:repoName};",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                // "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Modify Dependencies",
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOn": [
+                "Composer Update",
+                "NPM Install",
+                "Fix Root node",
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "new",
+                // "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Fix Root node",
+            "type": "shell",
+            "problemMatcher": [],
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clean and Reinstall NPM",
+                "Ignore Personal Changes to root Node Module",
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "new",
+                // "showReuseMessage": false,
+                "clear": false
+            }
+        },
+        {
+            "label": "Composer Update",
+            "hide": true,
+            "type": "shell",
+            "command": "cd ${workspaceFolder}\\${input:repoName}; composer update",
+            "problemMatcher": [],
+            "options": {
+                // "shell": {
+                //     "executable": "C:\\Program Files\\Git\\git-bash.exe"
+                // }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "composer",
+            }
+        },
+        {
+            "label": "NPM Install",
+            "hide": true,
+            "type": "shell",
+            "command": "cd ${workspaceFolder}\\${input:repoName}\\vendor; npm install",
+            "problemMatcher": [],
+            "options": {
+                "shell": {
+                    "executable": "powershell.exe"
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "node",
+            }
+        },
+        {
+            "label": "Clean and Reinstall NPM",
+            "hide": true,
+            "type": "shell",
+            "command": "cd ${workspaceFolder}\\${input:repoName}; Remove-Item -Recurse -Force .\\node_modules; Remove-Item -Force .\\package-lock.json; npm install;",
+            "problemMatcher": [],
+            "options": {
+                "shell": {
+                    "executable": "powershell.exe"
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "root_node",
+            }
+        },
+        {
+            "label": "Ignore Personal Changes to root Node Module",
+            "hide": true,
+            "type": "shell",
+            "command": "cd ${workspaceFolder}\\${input:repoName}; git ls-files node_modules | ForEach-Object { git update-index --skip-worktree $_ }",
+            "problemMatcher": [],
+            "options": {
+                "shell": {
+                    "executable": "powershell.exe"
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "root_node",
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "branchName",
+            "type": "promptString",
+            "description": "Enter the branch name to clone",
+            "default": "staging"
+        },
+        {
+            "id": "repoName",
+            "type": "promptString",
+            "description": "Name of the repository to clone",
+            "default": "portfolio"
+        },
+    ]
+}
